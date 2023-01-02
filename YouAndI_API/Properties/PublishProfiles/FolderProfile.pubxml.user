@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>D:\QAN_Program\WebApi\YouAndI\YouAndI_API\bin\Release\net6.0\publish\</_PublishTargetUrl>
+    <History>True|2022-05-07T10:52:56.0684254Z;True|2022-05-07T12:00:40.1571823+08:00;True|2022-05-07T11:34:12.0156711+08:00;False|2022-05-07T11:33:46.8900607+08:00;True|2022-05-07T11:31:11.5849251+08:00;True|2022-05-06T23:53:44.6015689+08:00;False|2022-05-06T23:53:29.5208741+08:00;False|2022-05-06T23:52:57.9865071+08:00;True|2022-05-06T23:33:54.7825937+08:00;True|2022-05-06T23:24:02.1598634+08:00;True|2022-05-06T22:51:01.6551870+08:00;True|2022-05-05T15:31:23.4880031+08:00;False|2022-05-05T15:31:03.5395870+08:00;False|2022-05-05T15:30:41.6239644+08:00;True|2022-05-05T13:45:12.1769298+08:00;False|2022-05-05T13:44:58.2046279+08:00;True|2022-05-05T13:35:14.9476723+08:00;False|2022-05-05T13:34:58.5777549+08:00;False|2022-05-05T13:34:02.7822330+08:00;True|2022-05-05T13:32:03.1362734+08:00;True|2022-05-05T13:25:30.6953488+08:00;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Data Source=139.224.221.148%3bInitial Catalog=YouAndI_DB%3bPersist Security Info=True%3bUser ID=QANstar%3bPassword=Fa473184520403</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

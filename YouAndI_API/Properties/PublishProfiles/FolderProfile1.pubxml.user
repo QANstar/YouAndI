@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>E:\Web\YouAndI</_PublishTargetUrl>
+    <History>True|2022-11-05T10:42:46.7396524Z;True|2022-11-05T18:40:10.3289579+08:00;True|2022-06-18T17:37:35.2294114+08:00;True|2022-06-18T17:31:20.7567579+08:00;True|2022-06-18T12:47:09.0663384+08:00;True|2022-06-17T13:03:38.3564009+08:00;True|2022-06-16T13:31:33.8228652+08:00;True|2022-05-11T09:56:20.9296266+08:00;True|2022-05-10T19:38:58.3638256+08:00;True|2022-05-07T18:56:53.9676299+08:00;True|2022-05-07T12:01:26.1722135+08:00;True|2022-05-07T11:33:02.9690301+08:00;True|2022-05-06T23:54:37.3200566+08:00;True|2022-05-06T23:24:49.9430519+08:00;True|2022-05-06T22:55:51.7597690+08:00;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Data Source=121.4.109.235%3bInitial Catalog=YouAndI_DB%3bPersist Security Info=True%3bUser ID=QANstar%3bPassword=Fa473184520403.</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

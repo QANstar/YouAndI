@@ -1,0 +1,101 @@
+﻿{
+   "CodeGenerationMode": 2,
+   "ContextClassName": "Youandi_DBContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": true,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": null,
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "YouAndI_Entity",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[Activity]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ApplyActivity]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ApplyStatus]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ChartMessage]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Comment]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Message]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Student]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Type]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[User]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[UserInformation]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[View_Activity]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[View_ApplyActivity]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[View_ApplyStatus]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[View_ChartMessage]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[View_Comment]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[View_User]",
+         "ObjectType": 3
+      }
+   ],
+   "UiHint": "10_0_4_7\\SQLEXPRESS.YouAndI_DB",
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": true,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": false,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoConstructor": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false,
+   "UseT4": false
+}
