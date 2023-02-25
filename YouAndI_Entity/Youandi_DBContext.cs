@@ -19,31 +19,50 @@ namespace YouAndI_Entity
         }
 
         public virtual DbSet<Activity> Activity { get; set; }
+        public virtual DbSet<ActivityTag> ActivityTag { get; set; }
         public virtual DbSet<ApplyActivity> ApplyActivity { get; set; }
         public virtual DbSet<ApplyStatus> ApplyStatus { get; set; }
         public virtual DbSet<ChartMessage> ChartMessage { get; set; }
         public virtual DbSet<Comment> Comment { get; set; }
         public virtual DbSet<Message> Message { get; set; }
+        public virtual DbSet<Payment> Payment { get; set; }
+        public virtual DbSet<RootTag> RootTag { get; set; }
+        public virtual DbSet<StarActivity> StarActivity { get; set; }
         public virtual DbSet<Student> Student { get; set; }
+        public virtual DbSet<Tag> Tag { get; set; }
         public virtual DbSet<Type> Type { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserInformation> UserInformation { get; set; }
+        public virtual DbSet<UserTag> UserTag { get; set; }
         public virtual DbSet<View_Activity> View_Activity { get; set; }
         public virtual DbSet<View_ApplyActivity> View_ApplyActivity { get; set; }
         public virtual DbSet<View_ApplyStatus> View_ApplyStatus { get; set; }
         public virtual DbSet<View_ChartMessage> View_ChartMessage { get; set; }
         public virtual DbSet<View_Comment> View_Comment { get; set; }
+        public virtual DbSet<View_StarActivity> View_StarActivity { get; set; }
         public virtual DbSet<View_User> View_User { get; set; }
+        public virtual DbSet<View_UserTag> View_UserTag { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Data Source=121.4.109.235;Initial Catalog=YouAndI_DB;Persist Security Info=True;User ID=QANstar;Password=Fa473184520403.");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ActivityTag>(entity =>
+            {
+                entity.HasOne(d => d.activity)
+                    .WithMany(p => p.ActivityTag)
+                    .HasForeignKey(d => d.activityId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ActivityTag_Activity");
+            });
+
             modelBuilder.Entity<ChartMessage>(entity =>
             {
                 entity.HasKey(e => e.message_id)
@@ -61,12 +80,35 @@ namespace YouAndI_Entity
                 entity.Property(e => e.id).ValueGeneratedNever();
             });
 
+            modelBuilder.Entity<Payment>(entity =>
+            {
+                entity.HasKey(e => e.activityId)
+                    .HasName("PK_Payment_1");
+
+                entity.Property(e => e.activityId).ValueGeneratedNever();
+
+                entity.HasOne(d => d.activity)
+                    .WithOne(p => p.Payment)
+                    .HasForeignKey<Payment>(d => d.activityId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Payment_Activity");
+            });
+
             modelBuilder.Entity<Student>(entity =>
             {
                 entity.HasKey(e => e.userid)
                     .HasName("PK_student");
 
                 entity.Property(e => e.userid).ValueGeneratedNever();
+            });
+
+            modelBuilder.Entity<Tag>(entity =>
+            {
+                entity.HasOne(d => d.root)
+                    .WithMany(p => p.Tag)
+                    .HasForeignKey(d => d.rootId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Tag_RootTag");
             });
 
             modelBuilder.Entity<UserInformation>(entity =>
@@ -99,9 +141,19 @@ namespace YouAndI_Entity
                 entity.ToView("View_Comment");
             });
 
+            modelBuilder.Entity<View_StarActivity>(entity =>
+            {
+                entity.ToView("View_StarActivity");
+            });
+
             modelBuilder.Entity<View_User>(entity =>
             {
                 entity.ToView("View_User");
+            });
+
+            modelBuilder.Entity<View_UserTag>(entity =>
+            {
+                entity.ToView("View_UserTag");
             });
 
             OnModelCreatingPartial(modelBuilder);

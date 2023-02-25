@@ -2,10 +2,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 using YouAndI_API.Utils;
 using YouAndI_API.Utils.Constant;
 using YouAndI_Entity;
@@ -75,7 +79,7 @@ namespace YouAndI_API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        
+
         /// <summary>
         /// 登录
         /// </summary>
@@ -194,6 +198,143 @@ namespace YouAndI_API.Controllers
                 return BadRequest(ex.Message);
             }
 
+        }
+        /// <summary>
+        /// 添加tag
+        /// </summary>
+        /// <param name="activityId"></param>
+        /// <returns></returns>
+        [EnableCors("any")]
+        [HttpPost]
+        [Authorize]
+        public IActionResult AddUserTag(int[] tagIdList)
+        {
+            try
+            {
+                var auth = HttpContext.AuthenticateAsync();
+                int userID = int.Parse(auth.Result.Principal.Claims.First(t => t.Type.Equals(ClaimTypes.Sid))?.Value);
+                tagIdList.ToList().ForEach(tagId =>
+                {
+                    Boolean isHave = Context.UserTag.ToList().Exists(x => x.userId == userID && x.tagId == tagId);
+                    if (!isHave)
+                    {
+                        UserTag userTag = new UserTag();
+                        userTag.userId = userID;
+                        userTag.tagId = tagId;
+                        Context.UserTag.Add(userTag);
+                    }
+                });
+                Context.SaveChanges();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        /// <summary>
+        /// 覆盖tag
+        /// </summary>
+        /// <param name="activityId"></param>
+        /// <returns></returns>
+        [EnableCors("any")]
+        [HttpPost]
+        [Authorize]
+        public IActionResult CoverUserTag(int[] tagIdList)
+        {
+            try
+            {
+                var auth = HttpContext.AuthenticateAsync();
+                int userID = int.Parse(auth.Result.Principal.Claims.First(t => t.Type.Equals(ClaimTypes.Sid))?.Value);
+                List<UserTag> oldTags = Context.UserTag.Where(x => x.userId == userID).ToList();
+                oldTags.ForEach(tag =>
+                {
+                    Context.UserTag.Remove(tag);
+                });
+                tagIdList.ToList().ForEach(tagId =>
+                {
+                    Boolean isHave = Context.UserTag.ToList().Exists(x => x.userId == userID && x.tagId == tagId);
+                    if (!isHave)
+                    {
+                        UserTag userTag = new UserTag();
+                        userTag.userId = userID;
+                        userTag.tagId = tagId;
+                        Context.UserTag.Add(userTag);
+                    }
+                });
+                Context.SaveChanges();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        /// <summary>
+        /// 删除tag
+        /// </summary>
+        /// <returns></returns>
+        [EnableCors("any")]
+        [HttpDelete]
+        [Authorize]
+        public IActionResult delUserTag(int tagId)
+        {
+            try
+            {
+                var auth = HttpContext.AuthenticateAsync();
+                int userID = int.Parse(auth.Result.Principal.Claims.First(t => t.Type.Equals(ClaimTypes.Sid))?.Value);
+                UserTag userTag = Context.UserTag.ToList().FirstOrDefault(x => x.userId == userID && x.tagId == tagId);
+                if (userTag != null)
+                {
+                    Context.UserTag.Remove(userTag);
+                    Context.SaveChanges();
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        /// <summary>
+        /// 获取某用户tag
+        /// </summary>
+        /// <returns></returns>
+        [EnableCors("any")]
+        [HttpGet]
+        public IActionResult getUserTag(int userId)
+        {
+            try
+            {
+                List<View_UserTag> view_UserTag = Context.View_UserTag.Where(x => x.userId == userId).ToList();
+                return Ok(view_UserTag);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        /// <summary>
+        /// 获取所以tag
+        /// </summary>
+        /// <returns></returns>
+        [EnableCors("any")]
+        [HttpGet]
+        public IActionResult GetAllTag()
+        {
+            try
+            {
+                List<RootTag> rootTag = Context.RootTag.Include(x => x.Tag).ToList();
+                var json = JsonUtils.ToJson(rootTag);
+                return Ok(json);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
     }

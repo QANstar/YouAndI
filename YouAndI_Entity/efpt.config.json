@@ -19,6 +19,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[ActivityTag]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[ApplyActivity]",
          "ObjectType": 0
       },
@@ -39,7 +43,23 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[Payment]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[RootTag]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[StarActivity]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[Student]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Tag]",
          "ObjectType": 0
       },
       {
@@ -52,6 +72,10 @@
       },
       {
          "Name": "[dbo].[UserInformation]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[UserTag]",
          "ObjectType": 0
       },
       {
@@ -75,13 +99,23 @@
          "ObjectType": 3
       },
       {
+         "Name": "[dbo].[View_StarActivity]",
+         "ObjectType": 3
+      },
+      {
          "Name": "[dbo].[View_User]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[View_UserTag]",
          "ObjectType": 3
       }
    ],
    "UiHint": "10_0_4_7\\SQLEXPRESS.YouAndI_DB",
+   "UncountableWords": null,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": true,
+   "UseDateOnlyTimeOnly": false,
    "UseDbContextSplitting": false,
    "UseFluentApiOnly": false,
    "UseHandleBars": false,
@@ -89,9 +123,7 @@
    "UseInflector": false,
    "UseLegacyPluralizer": false,
    "UseManyToManyEntity": false,
-   "UseNoConstructor": false,
    "UseNoDefaultConstructor": false,
-   "UseNoNavigations": false,
    "UseNoObjectFilter": false,
    "UseNodaTime": false,
    "UseNullableReferences": false,

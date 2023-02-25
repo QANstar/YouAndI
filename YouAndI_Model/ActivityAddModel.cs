@@ -17,5 +17,7 @@ namespace YouAndI_Model
         public int maxnumber { get; set; }
         public DateTime starttime { get; set; }
         public DateTime endtime { get; set; }
+        public PaymentModel? Payment { get; set; }
+        public List<ActivityTagModel> tags { get; set; }
     }
 }
