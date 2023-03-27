@@ -13,22 +13,22 @@
         /// 注册创建图片
         /// </summary>
         /// <param name="username"></param>
-        public static void createImage(int id)
+        public static void createImage(int id, string name)
         {
-            string userImgPath = IMAGE_LOCAL_USER_PATH + id;
+            string userImgPath = IMAGE_LOCAL_USER_PATH + id + "/";
             if (!Directory.Exists(userImgPath))
 
             {
                 Directory.CreateDirectory(userImgPath);
             }
-            System.IO.File.Copy(IMAGE_LOCAL_USER_PATH + "default.jpg", userImgPath + "/default.jpg", true);
+            System.IO.File.Copy(IMAGE_LOCAL_USER_PATH + "default/" + name, userImgPath + name, true);
 
         }
         /// <summary>
         /// 保存文件
         /// </summary>
         /// <param name="image"></param>
-        public static async Task<Boolean> saveImage(IFormFile image,int userid)
+        public static async Task<Boolean> saveImage(IFormFile image, int userid)
         {
             if (image != null)
             {
@@ -48,9 +48,9 @@
                 }
 
                 //插入图片数据                 
-                using (var stream = System.IO.File.Create(IMAGE_LOCAL_USER_PATH+userid+"/"+ image.FileName))
+                using (var stream = System.IO.File.Create(IMAGE_LOCAL_USER_PATH + userid + "/" + image.FileName))
                 {
-                   await image.CopyToAsync(stream);
+                    await image.CopyToAsync(stream);
                 }
             }
             else

@@ -64,6 +64,22 @@ namespace YouAndI_API.Controllers
                 }).ToList();
                 Context.Activity.Add(newActivity);
                 Context.SaveChanges();
+                Boolean isHave = Context.ApplyActivity.ToList().Exists(x => x.userid == userID && x.activity_id == newActivity.id && x.status != ApplyStatusConstant.UNPASS);
+                if (newActivity.curnumber >= newActivity.maxnumber)
+                {
+                    return BadRequest("人数已满");
+                }
+                if (isHave)
+                {
+                    return BadRequest("你已申请过");
+                }
+                ApplyActivity applyActivityItme = new ApplyActivity();
+                applyActivityItme.activity_id = newActivity.id;
+                applyActivityItme.userid = userID;
+                applyActivityItme.applytime = DateTime.Now;
+                applyActivityItme.status = ApplyStatusConstant.PASS;
+                Context.ApplyActivity.Add(applyActivityItme);
+                Context.SaveChanges();
                 return Ok("新增成功");
             }
             catch (Exception ex)
@@ -178,7 +194,7 @@ namespace YouAndI_API.Controllers
                 int userID = int.Parse(auth.Result.Principal.Claims.First(t => t.Type.Equals(ClaimTypes.Sid))?.Value);
                 if (typeId == 0)
                 {
-                    List<View_Activity> activityList = Context.View_Activity.Where(x => DateTime.Compare(DateTime.Now, x.endtime) < 0).Where(x => x.id > lastId).Take(10).ToList();
+                    List<View_Activity> activityList = Context.View_Activity.OrderByDescending(x => x.id).Where(x => DateTime.Compare(DateTime.Now, x.endtime) < 0).Where(x => lastId == 0 || x.id < lastId).Take(10).ToList();
                     List<ActivityShowModel> activities = activityList.Select(x => new ActivityShowModel()
                     {
                         id = x.id,
@@ -204,7 +220,7 @@ namespace YouAndI_API.Controllers
                 }
                 else
                 {
-                    List<View_Activity> activityList = Context.View_Activity.Where(x => x.typeID == typeId && DateTime.Compare(DateTime.Now, x.endtime) < 0).Where(x => x.id > lastId).Take(10).ToList();
+                    List<View_Activity> activityList = Context.View_Activity.OrderByDescending(x => x.id).Where(x => x.typeID == typeId && DateTime.Compare(DateTime.Now, x.endtime) < 0).Where(x => lastId == 0 || x.id < lastId).Take(10).ToList();
                     List<ActivityShowModel> activities = activityList.Select(x => new ActivityShowModel()
                     {
                         id = x.id,
@@ -250,7 +266,7 @@ namespace YouAndI_API.Controllers
             {
                 var auth = HttpContext.AuthenticateAsync();
                 int userID = int.Parse(auth.Result.Principal.Claims.First(t => t.Type.Equals(ClaimTypes.Sid))?.Value);
-                List<View_Activity> activityList = Context.View_Activity.Where(a => DateTime.Compare(DateTime.Now, a.endtime) < 0 && Math.Sqrt(Math.Pow(a.x - x, 2) + Math.Pow(a.y - y, 2)) < distance).Take(10).ToList();
+                List<View_Activity> activityList = Context.View_Activity.Where(a => DateTime.Compare(DateTime.Now, a.endtime) < 0 && Math.Sqrt(Math.Pow(a.x - x, 2) + Math.Pow(a.y - y, 2)) < distance).OrderByDescending(x => x.id).Take(10).ToList();
                 List<ActivityShowModel> activities = activityList.Select(x => new ActivityShowModel()
                 {
                     id = x.id,

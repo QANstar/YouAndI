@@ -51,6 +51,37 @@ namespace YouAndI_API.Controllers
             }
         }
         /// <summary>
+        /// 查看用户聊天列表
+        /// </summary>
+        /// <param name="activtiyId"></param>
+        /// <returns></returns>
+        [EnableCors("any")]
+        [HttpGet]
+        [Authorize]
+        public IActionResult GetUserChatList()
+        {
+            try
+            {
+                var auth = HttpContext.AuthenticateAsync();
+                int userID = int.Parse(auth.Result.Principal.Claims.First(t => t.Type.Equals(ClaimTypes.Sid))?.Value);
+                List<View_ChartMessage> view_ChartMessage = new List<View_ChartMessage>();
+                Context.ApplyActivity.Where(x => x.userid == userID).ToList().ForEach(x =>
+                {
+                    View_ChartMessage chat = Context.View_ChartMessage.Where(y => y.activity_id == x.activity_id).OrderBy(z => z.createtime).LastOrDefault();
+                    if (chat != null)
+                    {
+                        view_ChartMessage.Add(chat);
+                    }
+                });
+                view_ChartMessage.ForEach(x => x.image = PathConstant.IMAGEPATH_USER + x.userid + "/" + x.image);
+                return Ok(view_ChartMessage);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        /// <summary>
         /// 发送聊天消息
         /// </summary>
         /// <param name="message"></param>

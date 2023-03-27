@@ -35,6 +35,8 @@ namespace YouAndI_API.Controllers
         [HttpPost]
         public IActionResult userSignUp(SignUpModel userInfo)
         {
+            const int defaultAvatarNum = 79; // 随机的图片数量
+            Random rd = new Random();
             try
             {
                 bool isEmailHave = Context.User.ToList().Exists(x => x.email == userInfo.email);
@@ -47,17 +49,18 @@ namespace YouAndI_API.Controllers
                 {
                     return BadRequest("用户名已被注册");
                 }
+                string imageName = "default (" + rd.Next(1, defaultAvatarNum + 1) + ").png";
                 // 添加用户
                 User user = new User();
                 user.username = userInfo.username;
                 user.password = userInfo.password;
                 user.email = userInfo.email;
-                user.image = "default.jpg";
+                user.image = imageName;
                 Context.User.Add(user);
                 Context.SaveChanges();
                 User result = Context.User.FirstOrDefault(x => x.email == user.email && x.password == user.password);
                 // 创建默认头像
-                FileUtils.createImage(result.id);
+                FileUtils.createImage(result.id, imageName);
                 // 创建用户信息
                 UserInformation userInformation = new UserInformation();
                 // 初始化
@@ -135,7 +138,7 @@ namespace YouAndI_API.Controllers
                     User user = Context.User.FirstOrDefault(x => x.id == userID);
                     user.image = image.FileName;
                     Context.SaveChanges();
-                    return Ok("上传成功");
+                    return Ok(PathConstant.IMAGEPATH_USER + user.id + "/" + user.image);
                 }
                 else
                 {
@@ -190,6 +193,27 @@ namespace YouAndI_API.Controllers
                 var auth = HttpContext.AuthenticateAsync();
                 int userID = int.Parse(auth.Result.Principal.Claims.First(t => t.Type.Equals(ClaimTypes.Sid))?.Value);
                 View_User view_User = Context.View_User.FirstOrDefault(x => x.id == userID);
+                view_User.image = PathConstant.IMAGEPATH_USER + view_User.id + "/" + view_User.image;
+                return Ok(view_User);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+        /// <summary>
+        /// 通过id获取用户信息
+        /// </summary>
+        /// <returns></returns>
+        [EnableCors("any")]
+        [HttpGet]
+        [Authorize]
+        public IActionResult getUserInfoById(int userId)
+        {
+            try
+            {
+                View_User view_User = Context.View_User.FirstOrDefault(x => x.id == userId);
                 view_User.image = PathConstant.IMAGEPATH_USER + view_User.id + "/" + view_User.image;
                 return Ok(view_User);
             }
